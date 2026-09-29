@@ -15,7 +15,7 @@ from ppo import BATCH, ENVIRONMENTS, Agent, train
 
 STEPS = {1: 2_000_000, 2: 8_000_000, 3: 20_000_000, 4: 40_000_000}
 EVALUATE_EVERY = 100  # updates
-THREADS = 2  # four seeds at once fill the eight performance cores
+THREADS = 1  # eight seeds at once give the most steps per second
 
 
 def run(links, seed, updates, folder):

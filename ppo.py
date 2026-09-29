@@ -143,5 +143,9 @@ def improve(agent, optimizer, observations, actions, log_probs, advantages, retu
             loss = policy_loss + VALUE_COST * value_loss.mean() - ENTROPY_COST * entropy
             optimizer.zero_grad()
             loss.backward()
-            nn.utils.clip_grad_norm_(agent.parameters(), MAX_GRAD_NORM)
+            # Clipped apart, or the value error would set the size of the policy's step.
+            nn.utils.clip_grad_norm_(
+                [*agent.actor.parameters(), agent.log_std], MAX_GRAD_NORM
+            )
+            nn.utils.clip_grad_norm_(agent.critic.parameters(), MAX_GRAD_NORM)
             optimizer.step()
