@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pendulum-swingup"
+version = "1.0.0"
+description = "PPO swings up and balances 1, 2 and 3 pendulum links on a cart."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.12"
+dependencies = [
+    "matplotlib>=3.10",
+    "mediapy>=1.2",
+    "mujoco==3.11.0",
+    "numpy>=2.1",
+    "torch>=2.7",
+]
+
+[tool.setuptools]
+py-modules = ["environment", "evaluate", "model", "ppo", "reward", "train"]
