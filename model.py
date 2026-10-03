@@ -18,9 +18,8 @@ def build_model(links):
     spec.option.integrator = mujoco.mjtIntegrator.mjINT_RK4
 
     height = links * LINK_LENGTH
-    distance = max(5.0, 2.5 * height)
     spec.worldbody.add_camera(
-        name="overview", pos=[0, -distance, height / 2], xyaxes=[1, 0, 0, 0, 0, 1]
+        name="overview", pos=[0, -5.0, height / 2], xyaxes=[1, 0, 0, 0, 0, 1]
     )
     spec.worldbody.add_geom(
         type=mujoco.mjtGeom.mjGEOM_CAPSULE,
@@ -47,8 +46,8 @@ def build_model(links):
         rgba=[0.2, 0.45, 0.8, 1],
     )
 
-    # Each hinge sits at the tip of the link below and measures the angle against it;
-    # zero is straight up.
+    # The first hinge sits on the cart, each further one at the tip of the link below,
+    # and measures the angle against that link; all zeros is straight up.
     parent, pivot = cart, 0.0
     for _ in range(links):
         parent = parent.add_body(pos=[0, 0, pivot])

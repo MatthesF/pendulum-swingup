@@ -13,9 +13,9 @@ from environment import Pendulums, observation_size
 from evaluate import STARTS, record, successes
 from ppo import BATCH, ENVIRONMENTS, Agent, train
 
-STEPS = {1: 2_000_000, 2: 8_000_000, 3: 20_000_000, 4: 40_000_000}
+STEPS = {1: 2_000_000, 2: 8_000_000, 3: 20_000_000}
 EVALUATE_EVERY = 100  # updates
-THREADS = 1  # eight seeds at once give the most steps per second
+THREADS = 1
 
 
 def run(links, seed, updates, folder):

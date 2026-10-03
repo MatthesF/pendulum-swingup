@@ -15,8 +15,8 @@ scratch on a laptop CPU.
 ## Results
 
 Each policy is tested from 50 hanging starts. A start counts if every link stays within
-10° of upright for the last 5 of 15 seconds. A seed solves the task if it holds at
-least 45 of the 50.
+10° of upright for the last 5 of 15 seconds. A seed solves the task if its final policy
+holds at least 45 of the 50.
 
 | Links | Training steps | Time per seed | Seeds that solve it |
 | --- | --- | --- | --- |
@@ -50,8 +50,9 @@ python train.py --links 3 --seed 0
 python evaluate.py runs/links_3/seed_0
 ```
 
-Training writes the policy, a progress plot and a video to `runs/links_3/seed_0/`.
-Seeds use one core each, so train several at once:
+Training writes the policy, its progress as a table and a plot, and a video to
+`runs/links_3/seed_0/`. The video needs `ffmpeg` on the path. Seeds use one core
+each, so train several at once:
 
 ```bash
 for seed in 0 1 2 3 4 5 6 7; do python train.py --links 3 --seed $seed & done; wait
@@ -66,7 +67,7 @@ once.
 The policy sees the cart's position and velocity, and for each link the cosine and
 sine of its angle, its angular velocity and how much of its rotation budget is left.
 
-The reward is always between 0 and 1:
+Each step earns between 0 and 1:
 
     reward = 0.05 × height + 0.95 / (1 + error)
 
@@ -91,7 +92,9 @@ policy practises balancing before it can swing up.
 PPO follows CleanRL: separate 128 × 128 tanh networks for policy and value,
 32 environments × 256 steps per update, minibatches of 512 for 10 epochs, γ = 0.999,
 GAE λ = 0.98, entropy 0.01, and a learning rate of 3e-4 that decays linearly to zero.
-The gradient norm is clipped to 0.5, for policy and value separately.
+The gradient norm is clipped to 0.5, for policy and value separately. An update ends
+early, for both networks, once a minibatch's approximate KL from the policy that
+collected the data passes 0.03.
 
 ## Files
 
